@@ -54,7 +54,7 @@ public class Parsercnf {
         try{
             while (NumberOfClauses>0){
                 String literal = scanner.next();
-                //System.out.println(clause);
+
                 if (literal.equals("0")){
                     NumberOfClauses--;
                     formula = formula.addClause(clause);
@@ -67,7 +67,6 @@ public class Parsercnf {
                 else{
                     clause = clause.add(PosLiteral.make(literal));
                 }
-
             }
         }
         catch(NoSuchElementException e){
@@ -75,6 +74,7 @@ public class Parsercnf {
                     "Clauses are missing",1);
 
         }
+
         return formula;
 
     }

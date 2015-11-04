@@ -8,7 +8,6 @@ import sat.env.Variable;
 import sat.formula.Clause;
 import sat.formula.Formula;
 import sat.formula.Literal;
-import sat.formula.NegLiteral;
 import sat.formula.PosLiteral;
 
 /**
@@ -26,9 +25,8 @@ public class SATSolver {
      */
     public static Environment solve(Formula formula) {
         // TODO: implement this.
-
-        Environment environment = solve(formula.getClauses(), new Environment());
-        return environment;
+        ImList<Clause> clauses = formula.getClauses();
+        return solve(clauses, new Environment());
 
         //throw new RuntimeException("not yet implemented.");
     }
@@ -53,34 +51,35 @@ public class SATSolver {
         Clause shortest_clause = clauses.first();
         for (Clause aClause:clauses) {
             if (aClause.isEmpty()) return null; //if a clause is empty, problem is unsatisfiable
-            if (aClause.size() <= shortest_clause.size())
+            if (aClause.size() < shortest_clause.size())
                 shortest_clause = aClause;      //find the shortest clause
         }
+
         Literal l = shortest_clause.chooseLiteral(); //choose a literal from the clause
 
         //if shortest clause contains 1 literal, set the literal to be true and reduce formula size
         if (shortest_clause.isUnit()) {
             Variable v = l.getVariable();
             //if the literal is positive, set the variable to be TRUE, else set it to FALSE
-            if (PosLiteral.make(v).equals(l)) env.put(v, Bool.TRUE);
-            else env.put(v, Bool.FALSE);
-            env = solve(substitute(clauses, l), env);
+            if (PosLiteral.make(v).equals(l)) env = env.put(v, Bool.TRUE);
+            else env = env.put(v, Bool.FALSE);
+            return solve(substitute(clauses, l), env);
 
         } else {  //if the clause contains multiple literals
             //set one literal l to be TRUE
             Variable v = l.getVariable();
-            if (PosLiteral.make(v).equals(l)) env.put(v, Bool.TRUE);
-            else env.put(v, Bool.FALSE);
+            if (PosLiteral.make(v).equals(l)) env = env.put(v, Bool.TRUE);
+            else env = env.put(v, Bool.FALSE);
             Environment newEnv = solve(substitute(clauses, l), env);
             //if this makes the formula unsatisfiable, try setting literal l to FALSE instead
             if (newEnv == null) {
-                if (PosLiteral.make(v).equals(l)) env.put(v, Bool.FALSE);
-                else env.put(v, Bool.TRUE);
-                env = solve(substitute(clauses, NegLiteral.make(v)), env);
-            }
+                if (PosLiteral.make(v).equals(l)) env = env.put(v, Bool.FALSE);
+                else env = env.put(v, Bool.TRUE);
+                return solve(substitute(clauses, l.getNegation()), env);
+            } else return newEnv;
 
         }
-        throw new RuntimeException("not yet implemented.");
+        //throw new RuntimeException("not yet implemented.");
     }
 
     /**
@@ -98,7 +97,9 @@ public class SATSolver {
         // TODO: implement this.
         ImList<Clause> newClauses = new EmptyImList<Clause>();
         for (Clause aClause:clauses) {
-            newClauses.add(aClause.reduce(l));
+            Clause newClause = aClause.reduce(l);
+            if (newClause!= null)
+                newClauses = newClauses.add(newClause);
         }
         return newClauses;
 
