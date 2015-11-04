@@ -39,56 +39,14 @@ public class SATSolverTest {
     Literal nc = c.getNegation();
 
 
-    public static void main(String[] args)throws IOException, ParseException {
-        InputStream is = null;
-        is = new FileInputStream("C:\\Users\\SUTD\\Desktop\\Project-2D-starting\\sampleCNF\\largeSat.cnf");
-        Scanner scanner = new Scanner(is);
-        int numberofvariables;
-        int numberofclauses;
-
+    public static void main(String[] args){
+        Formula result;
         try{
-            String tok = scanner.next();
-            while(tok.equals("c")){
-                scanner.nextLine();
-                tok = scanner.next();
-            }
-            if (!tok.equals("p")){
-                throw new ParseException("Expected p but " + tok + " was found",1);
-            }
-        }catch (NoSuchElementException E){
-            throw new ParseException("Header not found",1);
+            result = Parsercnf.Parser("C:\\Users\\SUTD\\Desktop\\Project-2D-starting\\sampleCNF\\largeSat.cnf");
+            System.out.println(result);
         }
-        try {
-            String tok1 = scanner.next();
-            if (!tok1.equals("cnf")) {
-                throw new ParseException("Expected cnf but " + tok1 + " was found", 1);
-            }
-            numberofvariables = scanner.nextInt();
-            numberofclauses = scanner.nextInt();
+        catch(ParseException|IOException e){
         }
-        catch(NoSuchElementException e){
-            throw new ParseException("Incomplete Header",1);
-        }
-        ImList<ImList<Integer>> l1 = new EmptyImList<ImList<Integer>>();
-        ImList<Integer> l = new EmptyImList<>();
-        try{
-            while (numberofclauses>0){
-                int literal = scanner.nextInt();
-                l = l.add(literal);
-                if (literal == 0){
-                    numberofclauses--;
-                    Clause c = makeCl(l);
-
-                }
-
-            }
-        }
-        catch(NoSuchElementException e){
-            throw new ParseException(
-                    "Clauses are missing",1);
-
-        }
-        System.out.println(l);
 
 
 
@@ -98,8 +56,13 @@ public class SATSolverTest {
 
 
 
-        String result = "satisfiable";
-        if (result.equals("satisfiable")){
+
+
+
+
+
+        String result1 = "satisfiable";
+        if (result1.equals("satisfiable")){
             BufferedWriter writer = null;
             try {
                 //create a temporary file
@@ -125,7 +88,6 @@ public class SATSolverTest {
     }
     // TODO: add the main method that reads the .cnf file and calls SATSolver.solve to determine the satisfiability
 
-	
     public void testSATSolver1(){
     	// (a v b)
     	Environment e = SATSolver.solve(makeFm(makeCl(a,b))	);
