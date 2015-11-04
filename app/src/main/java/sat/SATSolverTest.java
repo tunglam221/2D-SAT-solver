@@ -1,33 +1,21 @@
 package sat;
 
-/*
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-*/
-
-import android.renderscript.ScriptGroup;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
-import immutable.EmptyImList;
-import immutable.ImList;
-import sat.env.*;
-import sat.formula.*;
+import sat.env.Bool;
+import sat.env.Environment;
+import sat.formula.Clause;
+import sat.formula.Formula;
+import sat.formula.Literal;
+import sat.formula.PosLiteral;
+
+import static junit.framework.Assert.assertTrue;
 
 
 public class SATSolverTest {
@@ -42,10 +30,10 @@ public class SATSolverTest {
     public static void main(String[] args){
         Formula result;
         try{
-            result = Parsercnf.Parser("C:\\Users\\SUTD\\Desktop\\Project-2D-starting\\sampleCNF\\largeSat.cnf");
+            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\largesat.cnf");
             System.out.println(result);
         }
-        catch(ParseException|IOException e){
+        catch(ParseException |IOException e){
         }
 
 
@@ -90,13 +78,11 @@ public class SATSolverTest {
 
     public void testSATSolver1(){
     	// (a v b)
-    	Environment e = SATSolver.solve(makeFm(makeCl(a,b))	);
-/*
+    	Environment e = SATSolver.solve(makeFm(makeCl(a, b)));
     	assertTrue( "one of the literals should be set to true",
     			Bool.TRUE == e.get(a.getVariable())  
     			|| Bool.TRUE == e.get(b.getVariable())	);
     	
-*/    	
     }
     
     
