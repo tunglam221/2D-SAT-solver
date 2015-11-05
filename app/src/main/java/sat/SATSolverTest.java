@@ -1,9 +1,15 @@
 package sat;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import sat.env.Environment;
+import sat.env.Variable;
 import sat.formula.Clause;
 import sat.formula.Formula;
 import sat.formula.Literal;
@@ -35,7 +41,38 @@ public class SATSolverTest {
         catch(ParseException |IOException e){
             System.out.println(e);
         }
-        
+            if (e != null){
+                BufferedWriter write1 = null;
+                try {
+                    System.out.println("satisfiable");
+                    String DATETIME = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    File resultfile = new File(DATETIME+".txt");
+
+                    write1 = new BufferedWriter(new FileWriter(resultfile));
+                    for (int i = 1 ; i <= Parsercnf.NumberOfVariables ; i ++) {
+                        Variable key = new Variable(i+"");
+                        write1.write(i+":"+e.get(key));
+                        write1.newLine();
+                    }
+
+                }
+                catch(Exception e1){
+                    e1.printStackTrace();
+                }
+                finally{
+                    write1.close();
+                }
+
+
+            }
+            else{
+                System.out.println("not satisfiable");
+            }
+
+        }
+        catch(ParseException |IOException e){
+            System.out.println(e);
+        }
 
     }
 
