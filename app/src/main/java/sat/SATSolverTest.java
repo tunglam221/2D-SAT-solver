@@ -22,7 +22,7 @@ public class SATSolverTest {
     public static void main(String[] args){
         Formula result;
         try{
-            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\test8.cnf");
+            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\test1.cnf");
             System.out.println("SAT solver starts!!!");
             long started = System.nanoTime();
             Environment e = SATSolver.solve(result);
@@ -35,38 +35,9 @@ public class SATSolverTest {
         catch(ParseException |IOException e){
             System.out.println(e);
         }
-
-
-/*
-
-        String result1 = "satisfiable";
-        if (result1.equals("satisfiable")){
-            BufferedWriter writer = null;
-            try {
-                //create a temporary file
-                String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                File logFile = new File(timeLog);
-
-                // This will output the full path where the file will be written to...
-                System.out.println(logFile.getCanonicalPath());
-
-                writer = new BufferedWriter(new FileWriter(logFile));
-                writer.write("variable : assignment");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    // Close the writer regardless of what happens...
-                    writer.close();
-                } catch (Exception e) {
-                }
-            }
-
-        }
-*/
+        
 
     }
-    // TODO: add the main method that reads the .cnf file and calls SATSolver.solve to determine the satisfiability
 
     public void testSATSolver1(){
     	// (a v b)

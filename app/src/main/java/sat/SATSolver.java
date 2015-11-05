@@ -56,10 +56,10 @@ public class SATSolver {
         }
 
         Literal l = shortest_clause.chooseLiteral(); //choose a literal from the clause
+        Variable v = l.getVariable();
 
         //if shortest clause contains 1 literal, set the literal to be true and reduce formula size
         if (shortest_clause.isUnit()) {
-            Variable v = l.getVariable();
             //if the literal is positive, set the variable to be TRUE, else set it to FALSE
             if (PosLiteral.make(v).equals(l)) env = env.put(v, Bool.TRUE);
             else env = env.put(v, Bool.FALSE);
@@ -67,7 +67,6 @@ public class SATSolver {
 
         } else {  //if the clause contains multiple literals
             //set one literal l to be TRUE
-            Variable v = l.getVariable();
             if (PosLiteral.make(v).equals(l)) env = env.put(v, Bool.TRUE);
             else env = env.put(v, Bool.FALSE);
             Environment newEnv = solve(substitute(clauses, l), env);
