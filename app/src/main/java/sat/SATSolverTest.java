@@ -28,23 +28,18 @@ public class SATSolverTest {
     public static void main(String[] args){
         Formula result;
         try{
-            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\test1.cnf");
+            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\largesat.cnf");
             System.out.println("SAT solver starts!!!");
             long started = System.nanoTime();
             Environment e = SATSolver.solve(result);
-            System.out.println(e);
             long time = System.nanoTime();
             long timeTaken= time - started;
             System.out.println("Time:" + timeTaken/1000000.0 + "ms");
 
-        }
-        catch(ParseException |IOException e){
-            System.out.println(e);
-        }
             if (e != null){
                 BufferedWriter write1 = null;
                 try {
-                    System.out.println("satisfiable");
+                    System.out.println("SATISFIABLE");
                     String DATETIME = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
                     File resultfile = new File(DATETIME+".txt");
 
@@ -54,27 +49,22 @@ public class SATSolverTest {
                         write1.write(i+":"+e.get(key));
                         write1.newLine();
                     }
-
-                }
-                catch(Exception e1){
+                } catch(Exception e1){
                     e1.printStackTrace();
-                }
-                finally{
+                } finally{
                     write1.close();
                 }
-
-
             }
-            else{
-                System.out.println("not satisfiable");
+            else {
+                System.out.println("NOT SATISFIABLE");
             }
 
         }
         catch(ParseException |IOException e){
             System.out.println(e);
         }
-
     }
+
 
     public void testSATSolver1(){
     	// (a v b)

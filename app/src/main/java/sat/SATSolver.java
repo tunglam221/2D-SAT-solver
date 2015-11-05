@@ -24,11 +24,9 @@ public class SATSolver {
      *         null if no such environment exists.
      */
     public static Environment solve(Formula formula) {
-        // TODO: implement this.
+
         ImList<Clause> clauses = formula.getClauses();
         return solve(clauses, new Environment());
-
-        //throw new RuntimeException("not yet implemented.");
     }
 
     /**
@@ -44,7 +42,6 @@ public class SATSolver {
      *         or null if no such environment exists.
      */
     private static Environment solve(ImList<Clause> clauses, Environment env) {
-        // TODO: implement this.
         //if the formula is empty, it is trivially satisfiable
         if (clauses.isEmpty()) return env;
 
@@ -78,7 +75,6 @@ public class SATSolver {
             } else return newEnv;
 
         }
-        //throw new RuntimeException("not yet implemented.");
     }
 
     /**
@@ -93,7 +89,6 @@ public class SATSolver {
      */
     private static ImList<Clause> substitute(ImList<Clause> clauses,
             Literal l) {
-        // TODO: implement this.
         ImList<Clause> newClauses = new EmptyImList<Clause>();
         for (Clause aClause:clauses) {
             Clause newClause = aClause.reduce(l);
@@ -101,8 +96,6 @@ public class SATSolver {
                 newClauses = newClauses.add(newClause);
         }
         return newClauses;
-
-       //throw new RuntimeException("not yet implemented.");
     }
 
 }
