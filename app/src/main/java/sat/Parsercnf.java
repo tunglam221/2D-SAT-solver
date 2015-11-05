@@ -16,12 +16,13 @@ import sat.formula.PosLiteral;
  * Created by SUTD on 4/11/2015.
  */
 public class Parsercnf {
+    static int NumberOfVariables;
+    static int NumberOfClauses;
+
     public static Formula Parser(String filelocation)throws IOException, ParseException {
         InputStream fileinput = null;
         fileinput = new FileInputStream(filelocation);
         Scanner scanner = new Scanner(fileinput);
-        int NumberOfVariables;
-        int NumberOfClauses;
 
         try{
             String word = scanner.next();

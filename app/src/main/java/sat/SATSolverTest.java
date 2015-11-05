@@ -1,9 +1,15 @@
 package sat;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import sat.env.Environment;
+import sat.env.Variable;
 import sat.formula.Clause;
 import sat.formula.Formula;
 import sat.formula.Literal;
@@ -22,7 +28,7 @@ public class SATSolverTest {
     public static void main(String[] args){
         Formula result;
         try{
-            result = Parsercnf.Parser("E:\\Term 6\\2D project\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\test8.cnf");
+            result = Parsercnf.Parser("C:\\Users\\SUTD\\Documents\\GitHub\\2d-sat-solver\\2D-SAT-solver\\Project-2D-starting\\sampleCNF\\test5.cnf");
             System.out.println("SAT solver starts!!!");
             long started = System.nanoTime();
             Environment e = SATSolver.solve(result);
@@ -31,39 +37,40 @@ public class SATSolverTest {
             long timeTaken= time - started;
             System.out.println("Time:" + timeTaken/1000000.0 + "ms");
 
+            if (e != null){
+                BufferedWriter write1 = null;
+                try {
+                    System.out.println("satisfiable");
+                    String DATETIME = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                    File resultfile = new File(DATETIME+".txt");
+
+                    write1 = new BufferedWriter(new FileWriter(resultfile));
+                    for (int i = 1 ; i <= Parsercnf.NumberOfVariables ; i ++) {
+                        Variable key = new Variable(i+"");
+                        write1.write(i+":"+e.get(key));
+                        write1.newLine();
+                    }
+
+                }
+                catch(Exception e1){
+                    e1.printStackTrace();
+                }
+                finally{
+                    write1.close();
+                }
+
+
+            }
+            else{
+                System.out.println("not satisfiable");
+            }
+
         }
         catch(ParseException |IOException e){
             System.out.println(e);
         }
 
 
-/*
-
-        String result1 = "satisfiable";
-        if (result1.equals("satisfiable")){
-            BufferedWriter writer = null;
-            try {
-                //create a temporary file
-                String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                File logFile = new File(timeLog);
-
-                // This will output the full path where the file will be written to...
-                System.out.println(logFile.getCanonicalPath());
-
-                writer = new BufferedWriter(new FileWriter(logFile));
-                writer.write("variable : assignment");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    // Close the writer regardless of what happens...
-                    writer.close();
-                } catch (Exception e) {
-                }
-            }
-
-        }
-*/
 
     }
     // TODO: add the main method that reads the .cnf file and calls SATSolver.solve to determine the satisfiability
