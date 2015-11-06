@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import sat.env.Environment;
 import sat.env.Variable;
@@ -40,8 +38,7 @@ public class SATSolverTest {
                 BufferedWriter write1 = null;
                 try {
                     System.out.println("SATISFIABLE");
-                    String DATETIME = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-                    File resultfile = new File(DATETIME+".txt");
+                    File resultfile = new File("BoolAssignment.txt");
 
                     write1 = new BufferedWriter(new FileWriter(resultfile));
                     for (int i = 1 ; i <= Parsercnf.NumberOfVariables ; i ++) {
